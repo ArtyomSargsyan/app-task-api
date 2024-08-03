@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\WebsiteRequest;
 use App\Http\Resources\ReportCollection;
 use App\Http\Resources\WebsiteResource;
+use App\Http\Resources\WebsiteResourceCollection;
 use App\Models\Website;
 use App\Services\WebsiteService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Controller;
 
 class WebsiteController extends Controller

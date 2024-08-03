@@ -5,6 +5,8 @@ namespace App\Repositories;
 
 use App\Models\Report;
 use App\Models\Website;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -22,18 +24,26 @@ class WebsiteRepository  implements  WebsiteRepositoryInterface
     }
 
     /**
-     * @return Collection|array
+     * @return Collection|Builder[]
      */
-    public function getAll(): Collection|array
+    public function getAll(): array|Collection
     {
         return Website::with('reports')->get();
     }
 
+    /**
+     * @param int $websiteId
+     * @return mixed
+     */
     public function getWebsiteDataById(int $websiteId)
     {
         return Website::findOrFail($websiteId);
     }
 
+    /**
+     * @param int $websiteId
+     * @return mixed
+     */
     public function getReportsDataById(int $websiteId)
     {
 
@@ -48,27 +58,40 @@ class WebsiteRepository  implements  WebsiteRepositoryInterface
             ->get();
     }
 
+    /**
+     * @param $url
+     * @return mixed
+     */
     public function store($url)
     {
         $website = new $this->website;
 
         $website->url = $url;
-
         $website->save();
+
         return $website;
 
     }
 
-    public function show($id)
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function show( int $id): mixed
     {
         return $this->website->find($id);
     }
 
-    public function update($url, $id)
+
+    /**
+     * @param string $url
+     * @param int $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function update(string $url, int $id)
     {
-
         $website = $this->website->find($id);
-
 
         if ($website) {
             $website->update(['url' => $url]);
@@ -79,9 +102,14 @@ class WebsiteRepository  implements  WebsiteRepositoryInterface
         return $website;
     }
 
-    public function delete($id)
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function delete(int $id)
     {
         $website = $this->website->find($id);
+
         if ($website) {
             $website->delete();
         }

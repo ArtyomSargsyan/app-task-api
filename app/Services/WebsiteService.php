@@ -61,11 +61,12 @@ class WebsiteService
         $result = [];
 
         foreach ($websites as $website) {
+
             $reports = $website->reports;
 
-            $totalRevenue = $reports->sum('total_revenue');
-            $totalImpressions = $reports->sum('total_impressions');
-            $totalClicks = $reports->sum('total_clicks');
+            $totalRevenue = $reports->sum('revenue');
+            $totalImpressions = $reports->sum('impressions');
+            $totalClicks = $reports->sum('clicks');
             $cpm = $totalImpressions ? ($totalRevenue * 1000) / $totalImpressions : 0;
 
             $result[] = [
@@ -87,6 +88,7 @@ class WebsiteService
 
         return $result;
     }
+
 
     /**
      * @param string $url
